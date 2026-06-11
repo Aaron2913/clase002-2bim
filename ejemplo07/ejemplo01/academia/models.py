@@ -1,6 +1,5 @@
+import datetime
 from django.db import models
-
-# Create your models here.
 
 class Estudiante(models.Model):
     nombre = models.CharField(max_length=30)
@@ -8,6 +7,14 @@ class Estudiante(models.Model):
     cedula = models.CharField(max_length=30, unique=True)
     edad = models.IntegerField()
 
-
     def __str__(self):
-        return f"{self.nombre} - {self.apellido} - {self.cedula} - edad: {self.edad}"
+        return f"Nombre: {self.nombre} - Apellido: {self.apellido} - CI: {self.cedula} - Edad: {self.edad} - Año de nacimiento: {self.obtener_anio_nacimiento()} - Ciudad: {self.obtener_ciudad()}"
+
+    def obtener_anio_nacimiento(self):
+        anio_actual = datetime.datetime.now().year
+        return anio_actual - self.edad
+
+    def obtener_ciudad(self):
+        if self.cedula.startswith("11"):
+            return "Loja"
+        return "Otra ciudad"
